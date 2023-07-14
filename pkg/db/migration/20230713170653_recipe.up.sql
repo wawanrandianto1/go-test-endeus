@@ -4,7 +4,7 @@ CREATE TABLE `categories` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1;
 
 CREATE TABLE `reseps` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -18,7 +18,7 @@ CREATE TABLE `reseps` (
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
   CONSTRAINT `reseps_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1;
 
 CREATE TABLE `bahans` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -30,7 +30,7 @@ CREATE TABLE `bahans` (
   PRIMARY KEY (`id`),
   KEY `resep_id` (`resep_id`),
   CONSTRAINT `bahans_ibfk_1` FOREIGN KEY (`resep_id`) REFERENCES `reseps` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1;
 
 CREATE TABLE `cara_buats` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -43,4 +43,4 @@ CREATE TABLE `cara_buats` (
   PRIMARY KEY (`id`),
   KEY `resep_id` (`resep_id`),
   CONSTRAINT `cara_buats_ibfk_1` FOREIGN KEY (`resep_id`) REFERENCES `reseps` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1;
