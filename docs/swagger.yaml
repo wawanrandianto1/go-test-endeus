@@ -1,0 +1,424 @@
+basePath: /api
+definitions:
+  endeus.CategoryResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/model.Category'
+        type: array
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  endeus.ResepAllResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/endeus.ResepCustomResponse'
+        type: array
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  endeus.ResepCustomResponse:
+    properties:
+      category_id:
+        type: integer
+      created_at:
+        type: string
+      deskripsi:
+        type: string
+      id:
+        type: integer
+      judul:
+        type: string
+      publish:
+        type: boolean
+      updated_at:
+        type: string
+      video_url:
+        type: string
+    type: object
+  endeus.ResepParam:
+    properties:
+      category_id:
+        type: integer
+      deskripsi:
+        type: string
+      deskripsi_bahan:
+        type: string
+      deskripsi_pembuatan:
+        type: string
+      judul:
+        type: string
+      lama_waktu:
+        type: integer
+      porsi:
+        type: integer
+      tips:
+        type: string
+      video_url:
+        type: string
+    required:
+    - category_id
+    - deskripsi
+    - deskripsi_bahan
+    - deskripsi_pembuatan
+    - judul
+    - lama_waktu
+    - porsi
+    - video_url
+    type: object
+  endeus.ResepSingleResponse:
+    properties:
+      data:
+        $ref: '#/definitions/model.Resep'
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  model.Bahan:
+    properties:
+      created_at:
+        type: string
+      deskripsi:
+        type: string
+      id:
+        type: integer
+      porsi:
+        type: integer
+      resep_id:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  model.CaraBuat:
+    properties:
+      created_at:
+        type: string
+      deskripsi:
+        type: string
+      id:
+        type: integer
+      lama_waktu:
+        type: integer
+      resep_id:
+        type: integer
+      tips:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  model.Category:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  model.Resep:
+    properties:
+      bahan:
+        $ref: '#/definitions/model.Bahan'
+      cara_masak:
+        $ref: '#/definitions/model.CaraBuat'
+      category_id:
+        type: integer
+      created_at:
+        type: string
+      deskripsi:
+        type: string
+      id:
+        type: integer
+      judul:
+        type: string
+      publish:
+        type: boolean
+      updated_at:
+        type: string
+      video_url:
+        type: string
+    type: object
+  utils.Error:
+    properties:
+      errors:
+        additionalProperties: true
+        type: object
+      message: {}
+      success:
+        type: boolean
+    type: object
+  utils.Success:
+    properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+host: 127.0.0.1:5000
+info:
+  contact: {}
+  title: Swagger Endeus API
+  version: "1.0"
+paths:
+  /category/all:
+    get:
+      consumes:
+      - application/json
+      description: Get all category
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/endeus.CategoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
+      summary: Get all category
+      tags:
+      - category
+  /resep/all:
+    get:
+      consumes:
+      - application/json
+      description: Get all resep
+      parameters:
+      - description: Filter by search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/endeus.ResepAllResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
+      summary: Get all resep
+      tags:
+      - resep
+  /resep/category/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get all resep
+      parameters:
+      - description: id from category
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/endeus.ResepAllResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
+      summary: Get all resep
+      tags:
+      - resep
+  /resep/create:
+    post:
+      consumes:
+      - application/json
+      description: Create one resep
+      parameters:
+      - description: Resep to create
+        in: body
+        name: resep
+        required: true
+        schema:
+          $ref: '#/definitions/endeus.ResepParam'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Success'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
+      summary: Create one resep
+      tags:
+      - resep
+  /resep/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete single resep
+      parameters:
+      - description: id from resep
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Success'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
+      summary: Delete single resep
+      tags:
+      - resep
+  /resep/single/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get one resep
+      parameters:
+      - description: id from resep
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/endeus.ResepSingleResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
+      summary: Get one resep
+      tags:
+      - resep
+  /resep/unpublish/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Change publis status resep
+      parameters:
+      - description: id from resep
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Success'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
+      summary: Change publis status resep
+      tags:
+      - resep
+  /resep/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update one resep
+      parameters:
+      - description: id from resep
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Resep to update
+        in: body
+        name: resep
+        required: true
+        schema:
+          $ref: '#/definitions/endeus.ResepParam'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Success'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
+      summary: Update one resep
+      tags:
+      - resep
+produces:
+- application/json
+schemes:
+- http
+- https
+swagger: "2.0"
