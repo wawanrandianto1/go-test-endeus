@@ -6,7 +6,7 @@ go-gen:
 	go generate ./...
 
 run-dev:
-	go run cmd/*.go
+	go run main.go
 
 test-setup:
 	go install github.com/onsi/ginkgo/v2/ginkgo@v2.11.0

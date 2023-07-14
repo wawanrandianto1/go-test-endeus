@@ -8,23 +8,24 @@ import (
 )
 
 type Error struct {
-	Errors map[string]interface{} `json:"errors"`
+	Success bool                   `json:"success"`
+	Message interface{}            `json:"message"`
+	Errors  map[string]interface{} `json:"errors"`
 }
 
 func NewError(err error) Error {
-	e := Error{}
-	e.Errors = make(map[string]interface{})
+	e := Error{Success: false}
 	switch v := err.(type) {
 	case *echo.HTTPError:
-		e.Errors["body"] = v.Message
+		e.Message = v.Message
 	default:
-		e.Errors["body"] = v.Error()
+		e.Message = v.Error()
 	}
 	return e
 }
 
 func NewValidatorError(err error) Error {
-	e := Error{}
+	e := Error{Message: "validator error", Success: false}
 	e.Errors = make(map[string]interface{})
 	errs := err.(validator.ValidationErrors)
 	for _, v := range errs {
@@ -33,16 +34,7 @@ func NewValidatorError(err error) Error {
 	return e
 }
 
-func AccessForbidden() Error {
-	e := Error{}
-	e.Errors = make(map[string]interface{})
-	e.Errors["body"] = "access forbidden"
-	return e
-}
-
 func NotFound() Error {
-	e := Error{}
-	e.Errors = make(map[string]interface{})
-	e.Errors["body"] = "resource not found"
+	e := Error{Success: false, Message: "resource not found"}
 	return e
 }

@@ -12,82 +12,6 @@ import (
 	gomock "github.com/golang/mock/gomock"
 )
 
-// MockCaraMasakRepository is a mock of CaraMasakRepository interface.
-type MockCaraMasakRepository struct {
-	ctrl     *gomock.Controller
-	recorder *MockCaraMasakRepositoryMockRecorder
-}
-
-// MockCaraMasakRepositoryMockRecorder is the mock recorder for MockCaraMasakRepository.
-type MockCaraMasakRepositoryMockRecorder struct {
-	mock *MockCaraMasakRepository
-}
-
-// NewMockCaraMasakRepository creates a new mock instance.
-func NewMockCaraMasakRepository(ctrl *gomock.Controller) *MockCaraMasakRepository {
-	mock := &MockCaraMasakRepository{ctrl: ctrl}
-	mock.recorder = &MockCaraMasakRepositoryMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockCaraMasakRepository) EXPECT() *MockCaraMasakRepositoryMockRecorder {
-	return m.recorder
-}
-
-// GetByResepID mocks base method.
-func (m *MockCaraMasakRepository) GetByResepID(resepID uint) (model.CaraMasak, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetByResepID", resepID)
-	ret0, _ := ret[0].(model.CaraMasak)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetByResepID indicates an expected call of GetByResepID.
-func (mr *MockCaraMasakRepositoryMockRecorder) GetByResepID(resepID interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByResepID", reflect.TypeOf((*MockCaraMasakRepository)(nil).GetByResepID), resepID)
-}
-
-// MockBahanRepository is a mock of BahanRepository interface.
-type MockBahanRepository struct {
-	ctrl     *gomock.Controller
-	recorder *MockBahanRepositoryMockRecorder
-}
-
-// MockBahanRepositoryMockRecorder is the mock recorder for MockBahanRepository.
-type MockBahanRepositoryMockRecorder struct {
-	mock *MockBahanRepository
-}
-
-// NewMockBahanRepository creates a new mock instance.
-func NewMockBahanRepository(ctrl *gomock.Controller) *MockBahanRepository {
-	mock := &MockBahanRepository{ctrl: ctrl}
-	mock.recorder = &MockBahanRepositoryMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockBahanRepository) EXPECT() *MockBahanRepositoryMockRecorder {
-	return m.recorder
-}
-
-// GetByResepID mocks base method.
-func (m *MockBahanRepository) GetByResepID(resepID uint) (model.Bahan, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetByResepID", resepID)
-	ret0, _ := ret[0].(model.Bahan)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetByResepID indicates an expected call of GetByResepID.
-func (mr *MockBahanRepositoryMockRecorder) GetByResepID(resepID interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByResepID", reflect.TypeOf((*MockBahanRepository)(nil).GetByResepID), resepID)
-}
-
 // MockCategoryRepository is a mock of CategoryRepository interface.
 type MockCategoryRepository struct {
 	ctrl     *gomock.Controller
@@ -111,19 +35,19 @@ func (m *MockCategoryRepository) EXPECT() *MockCategoryRepositoryMockRecorder {
 	return m.recorder
 }
 
-// GetAll mocks base method.
-func (m *MockCategoryRepository) GetAll() ([]model.Category, error) {
+// FindAll mocks base method.
+func (m *MockCategoryRepository) FindAll() ([]model.Category, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAll")
+	ret := m.ctrl.Call(m, "FindAll")
 	ret0, _ := ret[0].([]model.Category)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetAll indicates an expected call of GetAll.
-func (mr *MockCategoryRepositoryMockRecorder) GetAll() *gomock.Call {
+// FindAll indicates an expected call of FindAll.
+func (mr *MockCategoryRepositoryMockRecorder) FindAll() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockCategoryRepository)(nil).GetAll))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAll", reflect.TypeOf((*MockCategoryRepository)(nil).FindAll))
 }
 
 // MockResepRepository is a mock of ResepRepository interface.
@@ -163,49 +87,77 @@ func (mr *MockResepRepositoryMockRecorder) Create(param interface{}) *gomock.Cal
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockResepRepository)(nil).Create), param)
 }
 
-// GetAll mocks base method.
-func (m *MockResepRepository) GetAll(str string) ([]model.Resep, error) {
+// Delete mocks base method.
+func (m *MockResepRepository) Delete(id uint) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAll", str)
+	ret := m.ctrl.Call(m, "Delete", id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockResepRepositoryMockRecorder) Delete(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockResepRepository)(nil).Delete), id)
+}
+
+// FindAll mocks base method.
+func (m *MockResepRepository) FindAll(str string) ([]model.Resep, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindAll", str)
 	ret0, _ := ret[0].([]model.Resep)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetAll indicates an expected call of GetAll.
-func (mr *MockResepRepositoryMockRecorder) GetAll(str interface{}) *gomock.Call {
+// FindAll indicates an expected call of FindAll.
+func (mr *MockResepRepositoryMockRecorder) FindAll(str interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockResepRepository)(nil).GetAll), str)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAll", reflect.TypeOf((*MockResepRepository)(nil).FindAll), str)
 }
 
-// GetAllByCategoryID mocks base method.
-func (m *MockResepRepository) GetAllByCategoryID(categoryID uint) ([]model.Resep, error) {
+// FindAllByCategoryID mocks base method.
+func (m *MockResepRepository) FindAllByCategoryID(categoryID uint) ([]model.Resep, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllByCategoryID", categoryID)
+	ret := m.ctrl.Call(m, "FindAllByCategoryID", categoryID)
 	ret0, _ := ret[0].([]model.Resep)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetAllByCategoryID indicates an expected call of GetAllByCategoryID.
-func (mr *MockResepRepositoryMockRecorder) GetAllByCategoryID(categoryID interface{}) *gomock.Call {
+// FindAllByCategoryID indicates an expected call of FindAllByCategoryID.
+func (mr *MockResepRepositoryMockRecorder) FindAllByCategoryID(categoryID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllByCategoryID", reflect.TypeOf((*MockResepRepository)(nil).GetAllByCategoryID), categoryID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAllByCategoryID", reflect.TypeOf((*MockResepRepository)(nil).FindAllByCategoryID), categoryID)
 }
 
-// GetByID mocks base method.
-func (m *MockResepRepository) GetByID(resepID uint) (model.Resep, error) {
+// FindByID mocks base method.
+func (m *MockResepRepository) FindByID(resepID uint) (model.Resep, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetByID", resepID)
+	ret := m.ctrl.Call(m, "FindByID", resepID)
 	ret0, _ := ret[0].(model.Resep)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetByID indicates an expected call of GetByID.
-func (mr *MockResepRepositoryMockRecorder) GetByID(resepID interface{}) *gomock.Call {
+// FindByID indicates an expected call of FindByID.
+func (mr *MockResepRepositoryMockRecorder) FindByID(resepID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByID", reflect.TypeOf((*MockResepRepository)(nil).GetByID), resepID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByID", reflect.TypeOf((*MockResepRepository)(nil).FindByID), resepID)
+}
+
+// Unpublish mocks base method.
+func (m *MockResepRepository) Unpublish(id uint) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Unpublish", id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Unpublish indicates an expected call of Unpublish.
+func (mr *MockResepRepositoryMockRecorder) Unpublish(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Unpublish", reflect.TypeOf((*MockResepRepository)(nil).Unpublish), id)
 }
 
 // Update mocks base method.

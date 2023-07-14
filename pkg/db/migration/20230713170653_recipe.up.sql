@@ -1,43 +1,46 @@
 CREATE TABLE `categories` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `created_at` datetime(3) DEFAULT NULL,
-  `updated_at` datetime(3) DEFAULT NULL,
-  `name` longtext,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `reseps` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `created_at` datetime(3) DEFAULT NULL,
-  `updated_at` datetime(3) DEFAULT NULL,
-  `category_id` bigint unsigned DEFAULT NULL,
-  `judul` longtext NOT NULL,
-  `deskripsi` longtext,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `category_id` bigint NOT NULL,
+  `judul` text NOT NULL,
+  `video_url` text,
+  `deskripsi` text NOT NULL,
+  `publish` tinyint(1) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_reseps_category` (`category_id`),
-  CONSTRAINT `fk_reseps_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `category_id` (`category_id`),
+  CONSTRAINT `reseps_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `bahans` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `created_at` datetime(3) DEFAULT NULL,
-  `updated_at` datetime(3) DEFAULT NULL,
-  `resep_id` bigint unsigned NOT NULL,
-  `deskripsi` longtext,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `resep_id` bigint DEFAULT NULL,
+  `porsi` int DEFAULT NULL,
+  `deskripsi` text,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_bahans_resep` (`resep_id`),
-  CONSTRAINT `fk_bahans_resep` FOREIGN KEY (`resep_id`) REFERENCES `reseps` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `resep_id` (`resep_id`),
+  CONSTRAINT `bahans_ibfk_1` FOREIGN KEY (`resep_id`) REFERENCES `reseps` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `cara_masaks` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `created_at` datetime(3) DEFAULT NULL,
-  `updated_at` datetime(3) DEFAULT NULL,
-  `resep_id` bigint unsigned NOT NULL,
-  `video_url` longtext,
-  `lama_masak` bigint unsigned DEFAULT NULL,
-  `deskripsi` longtext,
+CREATE TABLE `cara_buats` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `resep_id` bigint DEFAULT NULL,
+  `lama_waktu` int DEFAULT NULL,
+  `deskripsi` text,
+  `tips` text,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_cara_masaks_resep` (`resep_id`),
-  CONSTRAINT `fk_cara_masaks_resep` FOREIGN KEY (`resep_id`) REFERENCES `reseps` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `resep_id` (`resep_id`),
+  CONSTRAINT `cara_buats_ibfk_1` FOREIGN KEY (`resep_id`) REFERENCES `reseps` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

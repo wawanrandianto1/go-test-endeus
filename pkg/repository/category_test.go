@@ -25,9 +25,9 @@ var _ = Describe("Category", func() {
 			var dt []model.Category
 			dt = append(dt, model.Category{ID: 1, Name: "kategori1"})
 			dt = append(dt, model.Category{ID: 2, Name: "kategori2"})
-			repo.EXPECT().GetAll().Return(dt, nil)
+			repo.EXPECT().FindAll().Return(dt, nil)
 
-			data, err := repo.GetAll()
+			data, err := repo.FindAll()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(data).To(HaveLen(2))
 		})

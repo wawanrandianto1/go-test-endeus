@@ -28,9 +28,9 @@ var _ = Describe("Resep", func() {
 				var dt []model.Resep
 				dt = append(dt, model.Resep{ID: 22, Judul: "resep ayam goreng", Deskripsi: "ayam goreng", CategoryID: 1})
 				dt = append(dt, model.Resep{ID: 23, Judul: "resep nasi goreng", Deskripsi: "nasi goreng", CategoryID: 2})
-				repo.EXPECT().GetAll("").Return(dt, nil)
+				repo.EXPECT().FindAll("").Return(dt, nil)
 
-				data, err := repo.GetAll("")
+				data, err := repo.FindAll("")
 				Expect(err).NotTo(HaveOccurred())
 				Expect(len(data)).To(Equal(2))
 			})
@@ -40,9 +40,9 @@ var _ = Describe("Resep", func() {
 			It("get all records", func() {
 				var dt []model.Resep
 				dt = append(dt, model.Resep{ID: 22, Judul: "resep ayam goreng", Deskripsi: "ayam goreng", CategoryID: 1})
-				repo.EXPECT().GetAll("ayam").Return(dt, nil)
+				repo.EXPECT().FindAll("ayam").Return(dt, nil)
 
-				data, err := repo.GetAll("ayam")
+				data, err := repo.FindAll("ayam")
 				Expect(err).NotTo(HaveOccurred())
 				Expect(len(data)).To(Equal(1))
 			})
@@ -54,9 +54,9 @@ var _ = Describe("Resep", func() {
 			var dt []model.Resep
 			dt = append(dt, model.Resep{ID: 22, Judul: "resep ayam goreng", Deskripsi: "ayam goreng", CategoryID: 1})
 			dt = append(dt, model.Resep{ID: 23, Judul: "resep nasi goreng", Deskripsi: "nasi goreng", CategoryID: 1})
-			repo.EXPECT().GetAllByCategoryID(uint(1)).Return(dt, nil)
+			repo.EXPECT().FindAllByCategoryID(uint(1)).Return(dt, nil)
 
-			data, err := repo.GetAllByCategoryID(uint(1))
+			data, err := repo.FindAllByCategoryID(uint(1))
 			Expect(err).NotTo(HaveOccurred())
 			Expect(len(data)).To(Equal(2))
 		})
@@ -65,9 +65,9 @@ var _ = Describe("Resep", func() {
 	Context("GetByID", func() {
 		It("existing id, get single records by id", func() {
 			dt := model.Resep{ID: 1, Judul: "resep ayam goreng", Deskripsi: "ayam goreng", CategoryID: 5}
-			repo.EXPECT().GetByID(uint(1)).Return(dt, nil)
+			repo.EXPECT().FindByID(uint(1)).Return(dt, nil)
 
-			data, err := repo.GetByID(uint(1))
+			data, err := repo.FindByID(uint(1))
 			Expect(err).NotTo(HaveOccurred())
 			Expect(data.Judul).NotTo(BeEmpty())
 			Expect(data.Deskripsi).NotTo(BeEmpty())
@@ -75,9 +75,9 @@ var _ = Describe("Resep", func() {
 
 		It("unknown id, throw error", func() {
 			dt := model.Resep{}
-			repo.EXPECT().GetByID(uint(2)).Return(dt, errors.New("id not found"))
+			repo.EXPECT().FindByID(uint(2)).Return(dt, errors.New("id not found"))
 
-			_, err := repo.GetByID(uint(2))
+			_, err := repo.FindByID(uint(2))
 			Expect(err).To(HaveOccurred())
 		})
 	})
@@ -85,13 +85,34 @@ var _ = Describe("Resep", func() {
 	Context("Create", func() {
 		It("success", func() {
 			dt := endeus.ResepParam{
-				Judul:      "resep nasi goreng",
-				Deskripsi:  "nasi goreng",
-				CategoryID: 1,
+				Judul:              "resep nasi goreng",
+				Deskripsi:          "nasi goreng",
+				CategoryID:         1,
+				VideoUrl:           "http://localhost",
+				Porsi:              3,
+				DeskripsiBahan:     "bawang, nasi, minyak",
+				LamaWaktu:          30,
+				Tips:               "",
+				DeskripsiPembuatan: "minyak dituang lalu dimasukkan semua",
 			}
 			repo.EXPECT().Create(dt).Return(nil)
-
 			err := repo.Create(dt)
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
+
+	Context("Unpublish", func() {
+		It("will unpublish data", func() {
+			repo.EXPECT().Unpublish(uint(1)).Return(nil)
+			err := repo.Unpublish(uint(1))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
+
+	Context("Delete", func() {
+		It("will delete data", func() {
+			repo.EXPECT().Delete(uint(1)).Return(nil)
+			err := repo.Delete(uint(1))
 			Expect(err).NotTo(HaveOccurred())
 		})
 	})
@@ -99,12 +120,17 @@ var _ = Describe("Resep", func() {
 	Context("Update", func() {
 		It("success", func() {
 			dt := endeus.ResepParam{
-				Judul:      "resep nasi goreng",
-				Deskripsi:  "nasi goreng",
-				CategoryID: 1,
+				Judul:              "resep ayam goreng",
+				Deskripsi:          "ayam goreng",
+				CategoryID:         1,
+				VideoUrl:           "http://localhost",
+				Porsi:              2,
+				DeskripsiBahan:     "bawang, ayam, minyak",
+				LamaWaktu:          10,
+				Tips:               "",
+				DeskripsiPembuatan: "minyak dituang lalu dimasukkan semua",
 			}
 			repo.EXPECT().Update(uint(1), dt).Return(nil)
-
 			err := repo.Update(uint(1), dt)
 			Expect(err).NotTo(HaveOccurred())
 		})

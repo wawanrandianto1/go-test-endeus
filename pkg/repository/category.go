@@ -17,7 +17,7 @@ func NewCategory(db *gorm.DB) endeus.CategoryRepository {
 	}
 }
 
-func (r *categoryRepo) GetAll() ([]model.Category, error) {
+func (r *categoryRepo) FindAll() ([]model.Category, error) {
 	var data []model.Category
 	err := r.db.Find(&data).Error
 	return data, err

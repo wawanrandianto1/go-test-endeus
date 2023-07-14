@@ -2,6 +2,7 @@ package utils
 
 import (
 	"os"
+	"strconv"
 )
 
 func GetEnv(key, fallback string) string {
@@ -9,4 +10,12 @@ func GetEnv(key, fallback string) string {
 		return value
 	}
 	return fallback
+}
+
+func ConvertID(id string) (uint, error) {
+	newID, err := strconv.Atoi(id)
+	if err != nil {
+		return 0, err
+	}
+	return uint(newID), nil
 }

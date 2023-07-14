@@ -9,7 +9,8 @@ type Resep struct {
 	CategoryID uint      `gorm:"column:category_id" json:"category_id"`
 	Judul      string    `gorm:"column:judul;not null" json:"judul"`
 	Deskripsi  string    `gorm:"column:deskripsi" json:"deskripsi"`
-	Category   Category  `gorm:"foreignKey:CategoryID" json:"category"`
-	// Bahan      Bahan     `gorm:"foreignKey:ResepID" json:"bahan"`
-	// CaraMasak  CaraMasak `gorm:"foreignKey:ResepID" json:"cara_masak"`
+	VideoUrl   string    `gorm:"column:video_url" json:"video_url"`
+	Publish    bool      `gorm:"column:publish" json:"publish"`
+	Bahan      Bahan     `gorm:"foreignKey:ResepID" json:"bahan"`
+	CaraBuat   CaraBuat  `gorm:"foreignKey:ResepID" json:"cara_masak"`
 }

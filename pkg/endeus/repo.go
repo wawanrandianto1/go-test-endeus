@@ -6,28 +6,28 @@ import (
 
 //go:generate mockgen -source=repo.go -package=mocks -destination=../../internal/mocks/repo.go
 
-type CaraMasakRepository interface {
-	GetByResepID(resepID uint) (model.CaraMasak, error)
-}
-
-type BahanRepository interface {
-	GetByResepID(resepID uint) (model.Bahan, error)
-}
-
 type CategoryRepository interface {
-	GetAll() ([]model.Category, error)
+	FindAll() ([]model.Category, error)
 }
 
 type ResepRepository interface {
-	GetAll(str string) ([]model.Resep, error)
-	GetAllByCategoryID(categoryID uint) ([]model.Resep, error)
-	GetByID(resepID uint) (model.Resep, error)
+	FindAll(str string) ([]model.Resep, error)
+	FindAllByCategoryID(categoryID uint) ([]model.Resep, error)
+	FindByID(resepID uint) (model.Resep, error)
 	Create(param ResepParam) error
+	Unpublish(id uint) error
+	Delete(id uint) error
 	Update(id uint, param ResepParam) error
 }
 
 type ResepParam struct {
-	CategoryID uint   `json:"category_id" validate:"required"`
-	Judul      string `json:"judul" validate:"required"`
-	Deskripsi  string `json:"deskripsi" validate:"required"`
+	CategoryID         uint   `json:"category_id" validate:"required"`
+	Judul              string `json:"judul" validate:"required"`
+	Deskripsi          string `json:"deskripsi" validate:"required"`
+	VideoUrl           string `json:"video_url" validate:"required"`
+	Porsi              uint   `json:"porsi" validate:"required"`
+	DeskripsiBahan     string `json:"deskripsi_bahan" validate:"required"`
+	LamaWaktu          uint   `json:"lama_waktu" validate:"required"`
+	Tips               string `json:"tips"`
+	DeskripsiPembuatan string `json:"deskripsi_pembuatan" validate:"required"`
 }
