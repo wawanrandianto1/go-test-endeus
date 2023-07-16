@@ -1,0 +1,3 @@
+FROM mysql:8
+
+ADD ./dummy_data/endeus.sql /docker-entrypoint-initdb.d

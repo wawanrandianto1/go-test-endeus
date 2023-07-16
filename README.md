@@ -27,3 +27,14 @@
 
         http://localhost:<PORT>/swagger/index.html
 
+
+
+## RUN WITH DOCKER
+- run command 
+
+      docker-compose up -d
+      
+      
+- this will create 2 new container: database and golang api
+- you must start manually in the docker desktop to run golang api
+- database already create with default dummy data

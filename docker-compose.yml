@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+        - '${DB_HOST}'
+    env_file:
+        - .env
+    ports:
+        - '${SERVER_PORT}:${SERVER_PORT}'
+        
+  dbmysql:
+    container_name: '${DB_HOST}'
+    build:
+      context: ./
+      dockerfile: Dockerfile.db
+    ports:
+      - '${DB_PORT}:${DB_PORT}'
+    expose:
+      - '${DB_PORT}'
+    volumes:
+      - ./mysql_data:/data/db
+    environment:
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+    restart: always
+    
+  # migrate:
+  #   image: migrate/migrate
+  #   volumes:
+  #     - ./pkg/db/migration:/migrations
+  #   command: ["-path", "/migrations", "-database",  "${DB_USERNAME}:${DB_PASSWORD}@tcp(${DB_HOST}:${DB_PORT})/${DB_DATABASE}?charset=utf8mb4&parseTime=True&loc=Local", "up"]
+  #   links: 
+  #     - '${DB_HOST}'
+  #   depends_on:
+  #     - '${DB_HOST}'
